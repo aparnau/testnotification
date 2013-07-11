@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>navigator.connection.type Example</title>
+
+    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+    <script type="text/javascript" charset="utf-8">
+
+    // Wait for device API libraries to load
+    //
+   // document.addEventListener("deviceready", onDeviceReady, false);
+
+    // device APIs are available
+    //
+  // invoked when device is ready 
+    function deviceInfo() {
+        document.getElementById('window.device.platform').innerHTML = 'window.device.platform = ' + window.device.platform;
+        document.getElementById('window.device.version').innerHTML  = 'window.device.version  = ' + window.device.version;
+        document.getElementById('window.device.uuid').innerHTML     = 'window.device.uuid     = ' + window.device.uuid;
+        document.getElementById('window.device.phonegap').innerHTML = 'window.device.phonegap = ' + window.device.phonegap;
+
+        navigator.network.isReachable("phonegap.com", function(reachability) {
+            var states = {};
+            states[NetworkStatus.NOT_REACHABLE]                      = 'No network connection';
+            states[NetworkStatus.REACHABLE_VIA_CARRIER_DATA_NETWORK] = 'Carrier data connection';
+            states[NetworkStatus.REACHABLE_VIA_WIFI_NETWORK]         = 'WiFi connection';
+            document.getElementById('networkStatus').innerHTML = 'isReachable = ' + states[reachability];
+        }, 
+        { isIpAddress: false });        
+    }       
+
+    // invoked when application is resumed (brought to foregroud)
+    function doResume() {
+        console.log('doResume()');
+    }
+
+    // invoked when application is paused (sent to background)
+    function doPause() {
+        console.log('doPause()');
+    }
+
+    // register PhoneGap event listeners when DOM content loaded
+    function init() {
+        console.log('init()');
+        document.addEventListener("deviceready", deviceInfo, true); 
+        document.addEventListener("resume", doResume, false);
+        document.addEventListener("pause", doPause, false);
+    }
+
+    function unload() {
+        console.log('unload()'); 
+    }
+
+    function fail(error) {
+        navigator.notification.alert(error, null, "Error");
+    }
+
+  function onDeviceReady() {
+        checkConnection();
+    }
+
+    </script>
+  </head>
+  <body>
+    <p>A dialog box will report the network state.</p>
+  </body>
+</html>
